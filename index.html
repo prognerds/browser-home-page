@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./assets/image/favicon.ico" type="image/x-icon">
+    <title>Home</title>
+    <meta name="description" content="A fully customized browser home page with quick links, search, and personalized styling.">
+    <meta name="author" content="Kawsar Ahmed">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<div class="settings-icon" onclick="toggleSettings()">
+    <i class="fas fa-cog"></i>
+</div>
+<div class="off-canvas-overlay" onclick="toggleSettings()"></div>
+<div class="off-canvas-menu">
+    <div class="off-canvas-header">
+        <h2 class="off-canvas-title">Customize</h2>
+        <button class="close-btn" onclick="toggleSettings()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="settings-section">
+        <h3 class="personal-settings"><i class="fas fa-user"></i> Personal Settings</h3>
+        <div class="form-group">
+            <input type="text" id="userName" placeholder="Enter your name">
+        </div>
+    </div>
+    <div class="settings-section">
+        <h3 class="image-settings"><i class="fas fa-image"></i> Image Settings</h3>
+        <div class="form-group">
+            <div class="toggle-group">
+                <label for="showImage">Show image</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="showImage" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Choose Image</label>
+            <div class="image-gallery">
+                <div class="image-option selected" data-image="./assets/image/img01.gif" style="background-image: url('./assets/image/img01.gif')"></div>
+                <div class="image-option" data-image="./assets/image/img02.gif" style="background-image: url('./assets/image/img02.gif')"></div>
+                <div class="image-option" data-image="./assets/image/img03.gif" style="background-image: url('./assets/image/img03.gif')"></div>
+                <div class="image-option" data-image="./assets/image/img04.gif" style="background-image: url('./assets/image/img04.gif')"></div>
+                <div class="image-option" data-image="./assets/image/img05.gif" style="background-image: url('./assets/image/img05.gif')"></div>
+                <div class="image-option" data-image="./assets/image/img06.gif" style="background-image: url('./assets/image/img06.gif')"></div>
+                <div class="image-option" data-image="./assets/image/img07.gif" style="background-image: url('./assets/image/img07.gif')"></div>
+                <div class="image-option" data-image="./assets/image/img08.gif" style="background-image: url('./assets/image/img08.gif')"></div>
+                <div class="image-option" data-image="./assets/image/img09.gif" style="background-image: url('./assets/image/img09.gif')"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="customImageUrl">Custom Image URL</label>
+            <input type="url" id="customImageUrl" placeholder="https://example.com/image.gif">
+            <button class="btn btn-small" onclick="setCustomImage()">Apply Custom Image</button>
+        </div>
+    </div>
+    <div class="settings-section">
+        <h3 class="appearance-settings"><i class="fas fa-palette"></i> Appearance</h3>
+        <div class="form-group">
+            <label for="bgColor">Background Color</label>
+            <input type="color" id="bgColor" value="#000000">
+        </div>
+    </div>
+    <div class="settings-section">
+        <h3 class="search-settings"><i class="fas fa-search"></i> Search Engine</h3>
+        <div class="form-group">
+            <select id="searchEngine">
+                <option value="google">Google</option>
+                <option value="bing">Bing</option>
+                <option value="duckduckgo">DuckDuckGo</option>
+                <option value="yahoo">Yahoo</option>
+            </select>
+        </div>
+    </div>
+    <div class="settings-section">
+        <h3 class="time-settings"><i class="fas fa-clock"></i> Time Settings</h3>
+        <div class="form-group">
+            <div class="toggle-group">
+                <label for="timeFormat24">24-hour format</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="timeFormat24">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="toggle-group">
+                <label for="showSeconds">Show seconds</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="showSeconds" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="settings-section">
+        <h3 class="categories-settings"><i class="fas fa-link"></i> Categories & Links</h3>
+        <div class="category-manager" id="categoryManager">
+        </div>
+        <button class="btn btn-primary" onclick="addCategory()">
+            <i class="fas fa-plus"></i> Add Category
+        </button>
+    </div>
+    <div class="settings-section">
+        <button class="btn btn-danger" onclick="resetSettings()">
+            <i class="fas fa-undo"></i> Reset All Settings
+        </button>
+    </div>
+</div>
+<div class="modal" id="categoryModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit Category</h3>
+            <button class="close-btn" onclick="closeCategoryModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="categoryNameInput">Category Name</label>
+                <input type="text" id="categoryNameInput">
+            </div>
+            <div class="form-group">
+                <label for="categoryGradient">Gradient Style</label>
+                <select id="categoryGradient">
+                    <option value="dev">Blue to Cyan</option>
+                    <option value="linux">Pink to Purple</option>
+                    <option value="learning">Red to Orange</option>
+                    <option value="tools">Green to Emerald</option>
+                    <option value="news">Yellow to Orange</option>
+                    <option value="security">Red to Dark Red</option>
+                    <option value="social">Purple to Pink</option>
+                    <option value="entertainment">Cyan to Blue</option>
+                    <option value="productivity">Emerald to Green</option>
+                    <option value="design">Orange to Amber</option>
+                    <option value="gaming">Red to Crimson</option>
+                    <option value="finance">Green to Forest</option>
+                </select>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button class="btn btn-primary" onclick="saveCategoryChanges()">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn" onclick="closeCategoryModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="linkModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit Link</h3>
+            <button class="close-btn" onclick="closeLinkModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="linkNameInput">Link Name</label>
+                <input type="text" id="linkNameInput">
+            </div>
+            <div class="form-group">
+                <label for="linkUrlInput">Link URL</label>
+                <input type="url" id="linkUrlInput">
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button class="btn btn-primary" onclick="saveLinkChanges()">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn" onclick="closeLinkModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+        <div class="info-bar" id="info-bar">
+            Greeting<span class="info-separator"> | </span>Time
+            <span class="info-separator"> | </span>Day
+            <span class="info-separator"> | </span>Date
+        </div>
+        <div class="search-container">
+            <form id="searchForm">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search..." autocomplete="off">
+            </form>
+        </div>
+        <div class="main-content">
+            <img src="./assets/image/img.gif" alt="select-img" class="image" id="mainImage">
+            <div class="links-container">
+                <div class="links-grid" id="linksGrid">
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="./assets/script.js"></script>
+</body>
+</html>
